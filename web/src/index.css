@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  color: rgb(232, 232, 232);
+}
+
+body {
+  background-color: #010a1b;
+  background-image: url("../assets/background/background.png");
+  background-position: center;
+  background-attachment: fixed;
+}
