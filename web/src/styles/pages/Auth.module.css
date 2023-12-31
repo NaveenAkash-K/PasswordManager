@@ -1,15 +1,14 @@
-.Login {
-  font-family: "Space Grotesk", sans-serif;
+.Auth {
   height: 100vh;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.login_card{
-  display: flex; 
+.card {
+  display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   border-radius: 10px;
   width: min-content;
   padding: 1.5rem;
@@ -26,11 +25,11 @@
   padding: 15px;
 }
 
-.input:focus{
+.input:focus {
   outline: #4274d8 2px solid;
 }
 
-.login_button {
+.filled_button {
   border: transparent;
   border-radius: 10px;
   padding: 15px;
@@ -41,11 +40,11 @@
   transition: 250ms ease-in-out;
 }
 
-.login_button:hover{
+.filled_button:hover {
   background-color: #4274d8;
 }
 
-.signup_button {
+.outline_button {
   border-radius: 10px;
   padding: 15px;
   margin: 1.25rem 0 0rem 0;
@@ -56,12 +55,12 @@
   transition: 250ms ease-in-out;
 }
 
-.signup_button:hover{
+.outline_button:hover {
   border: 2px solid #4274d8;
   background-color: #4274d8;
 }
 
 .hr {
   width: 100%;
-  border-color:rgb(184, 184, 184) ;
+  border-color: rgb(184, 184, 184);
 }

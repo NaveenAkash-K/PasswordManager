@@ -4,11 +4,12 @@
   margin: 0;
   padding: 0;
   color: rgb(232, 232, 232);
+  font-family: "Space Grotesk", sans-serif;
 }
 
 body {
-  background-color: #010a1b;
   background-image: url("../assets/background/background.png");
+  background-color: #010a1b;
   background-position: center;
   background-attachment: fixed;
 }

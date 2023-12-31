@@ -1,4 +1,4 @@
-import styles from "../styles/pages/Login.module.css";
+import styles from "../styles/pages/Auth.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
@@ -36,9 +36,9 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.Login}>
+    <div className={styles.Auth}>
       <ToastContainer position="top-center" theme="dark" />
-      <div className={styles.login_card}>
+      <div className={styles.card}>
         <h2>Welcome!</h2>
         <input
           placeholder="Email"
@@ -57,12 +57,12 @@ const Login = () => {
             setPassword(e.target.value);
           }}
         />
-        <button className={styles.login_button} onClick={handleLogin}>
+        <button className={styles.filled_button} onClick={handleLogin}>
           Login
         </button>
         <hr className={styles.hr} />
         <Link to={"/auth/signup"} style={{ width: "100%" }}>
-          <button className={styles.signup_button}>New user? Sign Up!</button>
+          <button className={styles.outline_button}>New user? Sign Up!</button>
         </Link>
       </div>
     </div>

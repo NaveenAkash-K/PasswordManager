@@ -1,10 +1,9 @@
-import styles from "../styles/pages/Signup.module.css";
+import styles from "../styles/pages/Auth.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { isEmail, isPassword, isUsername } from "../util/validators";
 import { ToastContainer, toast } from "react-toastify";
-import nodemailer from "nodemailer";
 
 
 const Signup = () => {
@@ -44,9 +43,9 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.Login}>
+    <div className={styles.Auth}>
       <ToastContainer position="top-center" theme="dark" />
-      <div className={styles.login_card}>
+      <div className={styles.card}>
         <h2>Manage all your password in one place!</h2>
         <input
           placeholder="Username"
@@ -82,14 +81,14 @@ const Signup = () => {
             setConfirmPassword(e.target.value);
           }}
         />
-        <button className={styles.login_button} onClick={handleSignup}>
+        <button className={styles.filled_button} onClick={handleSignup}>
           Signup
         </button>
 
         <hr className={styles.hr} />
 
         <Link to={"/auth/login"} style={{ width: "100%" }}>
-          <button className={styles.signup_button}>
+          <button className={styles.outline_button}>
             Already a user? Login!
           </button>
         </Link>

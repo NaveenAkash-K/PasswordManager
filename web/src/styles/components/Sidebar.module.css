@@ -1,0 +1,32 @@
+.Sidebar {
+  position: fixed;
+  height: 100vh;
+  width: 15rem;
+  background-color: rgb(255, 255, 255, 0.1);
+  border-radius: 0 15px 15px 0;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  border-radius: 0 15px 0 0;
+  background-color: rgba(138, 48, 255, 0.197);
+}
+
+.addLogin {
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  background-color: rgb(255, 255, 255, 0.1);
+  border: solid 1px rgb(255, 255, 255, 0.5);
+  border: transparent;
+  box-shadow: 2px 2px 5px 1px rgb(255, 255, 255, 0.2) inset,
+    -2px -2px 5px 1px rgba(0, 0, 0, 0.5) inset;
+  transition: 250ms ease-out;
+
+  &:hover {
+    background-color: rgb(255, 255, 255, 0.2);
+  }
+}
