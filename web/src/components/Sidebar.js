@@ -6,7 +6,7 @@ const Sidebar = () => {
         <h2>Pass Guardian</h2>
       </header>
       <center>
-        <button className={styles.addLogin}>Add Login</button>
+        <button className={styles.addLogin}>Add Password</button>
       </center>
     </div>
   );

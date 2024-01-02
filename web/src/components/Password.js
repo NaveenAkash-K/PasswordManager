@@ -2,7 +2,7 @@ import styles from "../styles/components/Password.module.css";
 
 const Password = (props) => {
   return (
-    <div className={styles.Password}>
+    <div className={styles.Password} onClick={props.onClick}>
       <h2>Gmail</h2>
       <div className={styles.overlay}>
         <p>naveen.akash0904@gmail.com</p>
