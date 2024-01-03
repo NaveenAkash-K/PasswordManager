@@ -100,6 +100,7 @@ router.post("/login", async (req, res, next) => {
 
   const token = jwt.sign(
     {
+      userId: user._id.toString(),
       email: user.email,
       username: user.username,
     },
@@ -120,7 +121,10 @@ router.post("/login", async (req, res, next) => {
 const checkAuth = (req, res, next) => {
   const token = req.headers.authorization;
   try {
-    jwt.verify(token, process.env.JWT_KEY);
+    const result = jwt.verify(token, process.env.JWT_KEY);
+    req.body.email = result.email;
+    req.body.username = result.username;
+    req.body. userId = result.userId;
     next();
   } catch {
     res.status(401).json({ error: "Not authenticated" });

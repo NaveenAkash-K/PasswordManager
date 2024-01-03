@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 const app = express();
 const AuthRoute = require("./routes/auth_route");
+const HomeRoute = require("./routes/home_route");
 const { checkAuth } = require("./routes/auth_route");
 const cors = require("cors");
 require("dotenv").config();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", AuthRoute);
+app.use("/home", checkAuth, HomeRoute);
 
 mongoose.connection.once("open", () => {
   app.listen(8080, () => {
