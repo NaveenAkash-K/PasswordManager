@@ -1,16 +1,34 @@
 const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-  userId: String,
-  name: String,
-  username: String,
-  email: String,
-  password: String,
-  url: String,
-  type: String,
-  note: String,
+// const password = new mongoose.Schema();
+
+// const userIdCollection = new mongoose.Schema({
+//   // userIdCollection fields
+//   userId: { type: String, unique: true, required: true },
+//   documents: [password], // Embed the document schema as an array
+
+//   // Add more fields as needed
+// });
+
+const passwordsCollection = new mongoose.Schema({
+  userIdCollection: [
+    {
+      userId: { type: String, unique: true, required: true },
+      documents: [
+        {
+          email: { type: String },
+          password: { type: String },
+          // name: String,
+          // username: String,
+          // url: String,
+          // type: String,
+          // note: String,
+        },
+      ],
+    },
+  ],
 });
 
-const Password_model = mongoose.model("Password", schema);
+const PasswordCollection = mongoose.model("Passwords", passwordsCollection);
 
-module.exports = Password_model;
+module.exports = PasswordCollection;

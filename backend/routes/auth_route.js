@@ -48,6 +48,7 @@ router.post("/signup", async (req, res, next) => {
       email: email,
       username: username,
       password: hashedPassword,
+      passwordList: [],
     }).save();
   } catch {
     return res.status(500).json({ error: "Internal server error" });
@@ -122,9 +123,9 @@ const checkAuth = (req, res, next) => {
   const token = req.headers.authorization;
   try {
     const result = jwt.verify(token, process.env.JWT_KEY);
-    req.body.email = result.email;
-    req.body.username = result.username;
-    req.body. userId = result.userId;
+    req.body.USER_email = result.email;
+    req.body.USER_username = result.username;
+    req.body.userId = result.userId;
     next();
   } catch {
     res.status(401).json({ error: "Not authenticated" });
