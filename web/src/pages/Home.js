@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 const Home = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [passwordList, setPassworList] = useState([]);
+  const [passwordList, setPasswordList] = useState([]);
 
   useEffect(() => {
     if (!token) {
@@ -24,7 +24,7 @@ const Home = () => {
         })
         .then((result) => {
           if (result.data !== null) {
-            setPassworList(result.data);
+            setPasswordList(result.data);
           }
         })
         .catch((error) => {
@@ -40,19 +40,32 @@ const Home = () => {
     getPasswords();
   }, []);
 
-  
+  const addPassword = (newPassword) => {
+    setPasswordList((prev) => [...prev, newPassword]);
+  };
+
+  const editPassword = (updatedPassword) => {
+    setPasswordList((prev) => {
+      return prev.map((ele) => {
+        if (ele._id === updatedPassword._id) {
+          return updatedPassword;
+        }
+        return ele;
+      });
+    });
+  };
+
   return (
     <div className={styles.Home}>
       <ToastContainer position="top-center" theme="dark" />
-      <Sidebar />
+      <Sidebar addPassword={addPassword} />
       <div className={styles.content}>
         <h1>Passwords</h1>
         <div className={styles.passwordGrid}>
           {passwordList.length === 0 && <p>No Passwords</p>}
           {passwordList.map((password) => {
-            return <Password data={password} />;
+            return <Password data={password} editPassword={editPassword} />;
           })}
-          {/* <Password onClick={modalHandle} /> */}
         </div>
       </div>
     </div>

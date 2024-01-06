@@ -8,9 +8,17 @@ const Password = (props) => {
   const modalHandle = () => {
     setisModalOpen((prev) => !prev);
   };
+
   return (
     <>
-      {isModalOpen && <PasswordModal modalHandle={modalHandle} closeOnOutsideClick={true} data={props.data} />}
+      {isModalOpen && (
+        <PasswordModal
+          modalHandle={modalHandle}
+          closeOnOutsideClick={true}
+          data={props.data}
+          editPassword={props.editPassword}
+        />
+      )}
       <div className={styles.Password} onClick={modalHandle}>
         <h2>{props.data.name}</h2>
         <div className={styles.overlay}>

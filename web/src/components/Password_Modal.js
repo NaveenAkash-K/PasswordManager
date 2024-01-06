@@ -63,15 +63,6 @@ const Modal = (props) => {
   };
 
   const addPassword = () => {
-    console.log("add");
-    console.log(nameRef.current.value);
-    console.log(usernameRef.current.value);
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
-    console.log(urlRef.current.value);
-    console.log(noteRef.current.value);
-    console.log(dropdownValue);
-
     axios
       .post(
         "http://localhost:8080/home/passwords",
@@ -87,7 +78,24 @@ const Modal = (props) => {
         { headers: { Authorization: token } }
       )
       .then((result) => {
-        console.log(result);
+        props.addPassword({
+          name: nameRef.current.value,
+          username: usernameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          url: urlRef.current.value,
+          note: noteRef.current.value,
+          type: dropdownValue,
+        });
+        // props.addPassword({
+        //   name: nameRef.current.value,
+        //   username: usernameRef.current.value,
+        //   email: emailRef.current.value,
+        //   password: passwordRef.current.value,
+        //   url: urlRef.current.value,
+        //   note: noteRef.current.value,
+        //   type: dropdownValue,
+        // });
       })
       .catch((error) => {
         console.log(error);
@@ -95,15 +103,42 @@ const Modal = (props) => {
   };
 
   const editPassword = () => {
-    console.log("edit");
-    console.log(nameRef.current.value);
-    console.log(usernameRef.current.value);
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
-    console.log(urlRef.current.value);
-    console.log(noteRef.current.value);
-    console.log(dropdownValue);
+    axios
+      .post(
+        "http://localhost:8080/home/passwords/edit",
+        {
+          _id: props.data._id,
+          name: nameRef.current.value,
+          username: usernameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          url: urlRef.current.value,
+          note: noteRef.current.value,
+          type: dropdownValue,
+        },
+        { headers: { Authorization: token } }
+      )
+      .then((result) => {
+        console.log(props.editPassword);
+        props.editPassword({
+          _id: props.data._id,
+          name: nameRef.current.value,
+          username: usernameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          url: urlRef.current.value,
+          note: noteRef.current.value,
+          type: dropdownValue,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  props.data === undefined
+    ? console.log(props.addPassword)
+    : console.log(props.editPassword);
 
   return (
     <>
@@ -221,7 +256,7 @@ const Modal = (props) => {
             <button
               className={styles.modal_button}
               style={{ backgroundColor: "rgba(86, 106, 255, 0.388)" }}
-              onClick={props.data ? editPassword : addPassword}
+              onClick={props.data === undefined ? addPassword : editPassword}
             >
               Save
             </button>

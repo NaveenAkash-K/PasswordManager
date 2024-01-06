@@ -1,4 +1,5 @@
-.backdrop{
+.backdrop {
+  position: absolute;
   width: 100%;
   height: 100%;
   /* background: rgba(255, 255, 255, 0.01); */
@@ -10,21 +11,20 @@
   z-index: 10;
 }
 
-.modal{
+.modal {
   /* display: flex;
   align-items: center;
   height: 100vh;
   width: 100vw; */
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -60%);
   z-index: 11;
-  position: absolute;
   /* justify-content: center; */
 }
 
-.content{
-  
+.content {
   backdrop-filter: blur(50px) brightness(100%);
   /* height: 20vh; */
   width: 20rem;
@@ -33,7 +33,7 @@
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.1);
   /* box-shadow: 5px 5px 10px 1px rgb(255, 255, 255, 0.05) inset,
-    -5px -5px 10px 1px rgba(0, 0, 0, 0.2) inset; */
+  -5px -5px 10px 1px rgba(0, 0, 0, 0.2) inset; */
   transition: 250ms ease-out;
 }
 
@@ -111,15 +111,15 @@
 }
 
 .dropdownValue:hover {
-  background-color: rgb(255, 255, 255,0.1);
+  background-color: rgb(255, 255, 255, 0.1);
 }
 
-.modalLastRow{
+.modalLastRow {
   display: flex;
   justify-content: space-between;
 }
 
-.modal_button{
+.modal_button {
   flex-grow: 1;
   margin: 1rem 0 0 1rem;
   border: none;
@@ -127,6 +127,6 @@
   padding: 15px;
 }
 
-.modal_button:hover{
+.modal_button:hover {
   filter: brightness(140%);
 }
