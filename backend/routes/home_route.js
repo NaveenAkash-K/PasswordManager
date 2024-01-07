@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const PasswordCollection = require("../model/password_model");
-var mongoose = require("mongoose");
 const User = require("../model/user_model");
-const { ObjectId } = require("mongodb");
+const aes = require("../middleware/aes");
 
 router.get("/passwords", async (req, res, next) => {
   const result = await User.findOne(
@@ -12,68 +10,96 @@ router.get("/passwords", async (req, res, next) => {
     },
     { passwordList: 1 }
   );
-  console.log(result.passwordList);
-  res.json(result.passwordList);
+  const decryptedList = result.passwordList.map((ele) => {
+    return {
+      _id: ele._id,
+      name: ele.name,
+      username: ele.username,
+      email: ele.email,
+      password: aes.decrypt(
+        ele.password.iv,
+        ele.password.data,
+        ele.password.tag
+      ),
+      url: ele.url,
+      note: ele.note,
+      type: ele.type,
+    };
+  });
+  res.json(decryptedList);
 });
 
-router.post("/passwords", async (req, res, next) => {
-  console.log(req.body);
-  const result = await User.updateOne(
-    {
-      _id: req.body.userId,
-    },
-    {
-      $push: {
-        passwordList: {
-          email: req.body.email,
-          password: req.body.password,
-          name: req.body.name,
-          username: req.body.username,
-          url: req.body.url,
-          note: req.body.note,
-          type: req.body.type,
+router.post("/passwords", aes.encrypt, async (req, res, next) => {
+  try {
+    const result = await User.updateOne(
+      { _id: req.body.userId },
+      {
+        $push: {
+          passwordList: {
+            email: req.body.email,
+            password: {
+              iv: req.body.iv,
+              data: req.body.data,
+              tag: req.body.tag,
+            },
+            name: req.body.name,
+            username: req.body.username,
+            url: req.body.url,
+            note: req.body.note,
+            type: req.body.type,
+          },
         },
-      },
-    }
-  );
-  console.log(result);
-  res.send();
+      }
+    );
+    res.json(result);
+  } catch {
+    res.status(400).json({ error: "Something went Wrong" });
+  }
 });
 
-router.post("/passwords/edit", async (req, res, next) => {
-  const result = await User.updateOne(
-    {
-      _id: req.body.userId,
-      "passwordList._id": req.body._id,
-    },
-    {
-      $set: {
-        "passwordList.$.email": req.body.email,
-        "passwordList.$.password": req.body.password,
-        "passwordList.$.username": req.body.username,
-        "passwordList.$.name": req.body.name,
-        "passwordList.$.note": req.body.note,
-        "passwordList.$.url": req.body.url,
-        "passwordList.$.type": req.body.type,
+router.patch("/passwords", aes.encrypt, async (req, res, next) => {
+  try {
+    const result = await User.updateOne(
+      {
+        _id: req.body.userId,
+        "passwordList._id": req.body._id,
       },
-    }
-  );
-
-  console.log(result);
-  res.send();
+      {
+        $set: {
+          "passwordList.$.email": req.body.email,
+          "passwordList.$.password": {
+            iv: req.body.iv,
+            data: req.body.data,
+            tag: req.body.tag,
+          },
+          "passwordList.$.username": req.body.username,
+          "passwordList.$.name": req.body.name,
+          "passwordList.$.note": req.body.note,
+          "passwordList.$.url": req.body.url,
+          "passwordList.$.type": req.body.type,
+        },
+      }
+    );
+    res.send();
+  } catch {
+    res.status(400).json({ error: "Something went Wrong" });
+  }
 });
 
-router.delete("/passwords/delete/:_id", async (req, res, next) => {
-  const result = await User.updateOne(
-    { _id: req.body.userId },
-    {
-      $pull: {
-        passwordList: { _id: req.params._id },
-      },
-    }
-  );
-  console.log(result);
-  res.send();
+router.delete("/passwords/:_id", async (req, res, next) => {
+  try {
+    const result = await User.updateOne(
+      { _id: req.body.userId },
+      {
+        $pull: {
+          passwordList: { _id: req.params._id },
+        },
+      }
+    );
+    res.send();
+  } catch {
+    res.status(400).json({ error: "Something went wrong" });
+  }
 });
 
 module.exports = router;

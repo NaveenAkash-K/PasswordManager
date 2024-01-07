@@ -13,13 +13,22 @@ const Home = () => {
   const [passwordList, setPasswordList] = useState([]);
 
   useEffect(() => {
-    if (!token) {
+    if (token) {
+      axios
+        .get(process.env.REACT_APP_API_BASE_URL + "/auth/checkAuth", {
+          headers: { Authorization: token },
+        })
+        .then(() => {})
+        .catch((error) => {
+          return navigate("/auth/login");
+        });
+    } else {
       return navigate("/auth/login");
     }
 
     const getPasswords = () => {
       axios
-        .get("http://localhost:8080/home/passwords", {
+        .get(process.env.REACT_APP_API_BASE_URL + "/home/passwords", {
           headers: { Authorization: token },
         })
         .then((result) => {
@@ -38,7 +47,7 @@ const Home = () => {
     };
 
     getPasswords();
-  }, []);
+  }, [token, navigate]);
 
   const addPassword = (newPassword) => {
     setPasswordList((prev) => [...prev, newPassword]);
@@ -55,6 +64,16 @@ const Home = () => {
     });
   };
 
+  const deletePassword = (id) => {
+    setPasswordList((prev) => {
+      return prev.filter((ele) => {
+        if (ele._id !== id) {
+          return ele;
+        }
+      });
+    });
+  };
+
   return (
     <div className={styles.Home}>
       <ToastContainer position="top-center" theme="dark" />
@@ -62,9 +81,26 @@ const Home = () => {
       <div className={styles.content}>
         <h1>Passwords</h1>
         <div className={styles.passwordGrid}>
-          {passwordList.length === 0 && <p>No Passwords</p>}
+          {passwordList.length === 0 && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <p>No Passwords</p>
+            </div>
+          )}
           {passwordList.map((password) => {
-            return <Password data={password} editPassword={editPassword} />;
+            return (
+              <Password
+                data={password}
+                editPassword={editPassword}
+                deletePassword={deletePassword}
+                key={password._id}
+              />
+            );
           })}
         </div>
       </div>

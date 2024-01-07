@@ -7,7 +7,11 @@ const schema = new mongoose.Schema({
   passwordList: [
     {
       email: { type: String },
-      password: { type: String },
+      password: {
+        iv: { type: String, required: true },
+        data: { type: String, required: true },
+        tag: { type: String, required: true },
+      },
       name: { type: String },
       username: { type: String },
       url: { type: String },

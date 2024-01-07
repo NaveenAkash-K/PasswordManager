@@ -5,7 +5,6 @@ import { useState } from "react";
 import { isEmail, isPassword, isUsername } from "../util/validators";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -15,20 +14,25 @@ const Signup = () => {
 
   const handleSignup = async () => {
     if (!isUsername(username)) {
+      if(username.length>2){
+        return toast("Username should not contain space")
+      }
       return toast("Username should contain grater than 3 characters");
     }
     if (!isEmail(email)) {
       return toast("Invalid Email");
     }
     if (!isPassword(password)) {
-      return toast("Password must have atleast 1 Uppercase, 1 Lowercase, 1 Special Character and 1 Numeric digit");
+      return toast(
+        "Password must have atleast 1 Uppercase, 1 Lowercase, 1 Special Character and 1 Numeric digit"
+      );
     }
     if (password !== confirmPassword) {
       return toast("Passwords don't match");
     }
 
     axios
-      .post("http://localhost:8080/auth/signup", {
+      .post(process.env.REACT_APP_API_BASE_URL + "/auth/signup", {
         email: email,
         username: username,
         password: password,
@@ -64,7 +68,7 @@ const Signup = () => {
           }}
         />
         <input
-        type="password"
+          type="password"
           placeholder="Master Password"
           className={styles.input}
           value={password}
@@ -73,7 +77,7 @@ const Signup = () => {
           }}
         />
         <input
-        type="password"
+          type="password"
           placeholder="Confirm Master Password"
           className={styles.input}
           value={confirmPassword}

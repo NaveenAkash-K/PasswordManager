@@ -4,6 +4,7 @@ const User = require("../model/user_model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { isEmail, isPassword, isUsername } = require("../util/validators");
+const checkAuth = require('../middleware/checkAuth')
 
 router.post("/signup", async (req, res, next) => {
   const email = req.body.email.toLowerCase();
@@ -13,7 +14,6 @@ router.post("/signup", async (req, res, next) => {
   var user;
 
   if (!isEmail(email)) {
-    console.log(isEmail(email));
     return res.status(400).json({ error: "Invalid Email" });
   }
   if (!isUsername(username)) {
@@ -119,18 +119,11 @@ router.post("/login", async (req, res, next) => {
   });
 });
 
-const checkAuth = (req, res, next) => {
-  const token = req.headers.authorization;
-  try {
-    const result = jwt.verify(token, process.env.JWT_KEY);
-    req.body.USER_email = result.email;
-    req.body.USER_username = result.username;
-    req.body.userId = result.userId;
-    next();
-  } catch {
-    res.status(401).json({ error: "Not authenticated" });
-  }
-};
+
+
+router.get("/checkAuth", checkAuth, (req, res) => {
+  res.status(200).send();
+});
 
 module.exports = router;
 module.exports.checkAuth = checkAuth;

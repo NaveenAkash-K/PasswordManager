@@ -17,12 +17,13 @@ const Password = (props) => {
           closeOnOutsideClick={true}
           data={props.data}
           editPassword={props.editPassword}
+          deletePassword={props.deletePassword}
         />
       )}
       <div className={styles.Password} onClick={modalHandle}>
         <h2>{props.data.name}</h2>
         <div className={styles.overlay}>
-          <p>{props.data.email}</p>
+          <p>{props.data.email ? props.data.email : props.data.type}</p>
         </div>
       </div>
     </>

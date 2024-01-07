@@ -21,7 +21,7 @@ const Login = () => {
     }
 
     axios
-      .post("http://localhost:8080/auth/login", {
+      .post(process.env.REACT_APP_API_BASE_URL + "/auth/login", {
         email: email,
         password: password,
       })
