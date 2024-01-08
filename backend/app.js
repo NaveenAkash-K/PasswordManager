@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use("/auth", AuthRoute);
 app.use("/home", checkAuth, HomeRoute);
 app.use("/test", (req, res, next) => {
-  res.send();
+  res.send("Hello from server");
 });
 
 mongoose.connection.once("open", () => {
