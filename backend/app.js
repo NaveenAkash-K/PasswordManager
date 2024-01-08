@@ -22,4 +22,7 @@ mongoose.connection.once("open", () => {
   app.listen(8080, () => {
     console.log("Server started at: https:localhost:8080");
   });
+  // console.log("Mongo Success");
 });
+
+module.exports = app;
