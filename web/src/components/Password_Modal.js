@@ -93,8 +93,8 @@ const Modal = (props) => {
         { headers: { Authorization: token } }
       )
       .then((result) => {
-        console.log(result.data);
         props.addPassword({
+          _id: result.data.newId,
           name: nameRef.current.value,
           username: usernameRef.current.value,
           email: emailRef.current.value,
@@ -155,7 +155,9 @@ const Modal = (props) => {
   const deletePassword = () => {
     axios
       .delete(
-        process.env.REACT_APP_API_BASE_URL + "/home/passwords/" + props.data._id,
+        process.env.REACT_APP_API_BASE_URL +
+          "/home/passwords/" +
+          props.data._id,
         { headers: { Authorization: token } }
       )
       .then(() => {

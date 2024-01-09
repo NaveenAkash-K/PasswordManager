@@ -31,27 +31,33 @@ router.get("/passwords", async (req, res, next) => {
 
 router.post("/passwords", aes.encrypt, async (req, res, next) => {
   try {
-    const result = await User.updateOne(
+    const result = await User.findOneAndUpdate(
       { _id: req.body.userId },
       {
         $push: {
           passwordList: {
-            email: req.body.email,
-            password: {
-              iv: req.body.iv,
-              data: req.body.data,
-              tag: req.body.tag,
-            },
-            name: req.body.name,
-            username: req.body.username,
-            url: req.body.url,
-            note: req.body.note,
-            type: req.body.type,
+            $each: [
+              {
+                email: req.body.email,
+                password: {
+                  iv: req.body.iv,
+                  data: req.body.data,
+                  tag: req.body.tag,
+                },
+                name: req.body.name,
+                username: req.body.username,
+                url: req.body.url,
+                note: req.body.note,
+                type: req.body.type,
+              },
+            ],
+            $position: 0, // Insert at the beginning of the array
           },
         },
-      }
+      },
+      { new: true } // This option returns the modified document
     );
-    res.json(result);
+    res.json({ newId: result.passwordList[0]._id.toString() });
   } catch {
     res.status(400).json({ error: "Something went Wrong" });
   }
